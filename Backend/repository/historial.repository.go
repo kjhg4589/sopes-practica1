@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"sopes-practica1/database"
 	m "sopes-practica1/models"
 
@@ -39,7 +38,6 @@ func Read() (m.Historiales, error) {
 
 		var historial m.Historial
 		err = cur.Decode(&historial)
-		fmt.Print(historial)
 
 		if err != nil {
 			return nil, err
