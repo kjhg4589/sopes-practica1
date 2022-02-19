@@ -6,35 +6,24 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+
+	historialService "sopes-practica1/service"
 )
 
-type Operacion struct {
-	Num1      float64 `json:"numero1,omitempty"`
-	FirstName string  `json:"firstname,omitempty"`
-	LastName  string  `json:"lastname,omitempty"`
-}
+func ReturnReport(w http.ResponseWriter, req *http.Request) {
+	historial, err := historialService.Read()
 
-var opers []Operacion
+	if err != nil {
+		json.NewEncoder(w).Encode(err)
+	}
 
-func executeOper(w http.ResponseWriter, req *http.Request) {
-
-}
-
-func returnReport(w http.ResponseWriter, req *http.Request) {
-	json.NewEncoder(w).Encode(opers)
+	json.NewEncoder(w).Encode(historial)
 }
 
 func main() {
 	router := mux.NewRouter()
 
-	// adding example data
-	opers = append(opers, Operacion{Num1: 1.2, FirstName: "Ryan", LastName: "Ray"})
-	opers = append(opers, Operacion{Num1: 2.2, FirstName: "Maria", LastName: "Ray"})
+	router.HandleFunc("/oper/report", ReturnReport).Methods("GET")
 
-	//endpoints
-	router.HandleFunc("/oper", executeOper).Methods("POST")
-	router.HandleFunc("/oper/report", returnReport).Methods("GET")
-
-	log.Fatal(http.ListenAndServe(":9080", router))
-
+	log.Fatal(http.ListenAndServe(":9090", router))
 }
