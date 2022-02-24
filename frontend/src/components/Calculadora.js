@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import axios from 'axios';
 import Historial from "./Historial";
 import { Card, TextField, Select, MenuItem, Button} from "@mui/material";
+import api_host from "./Creds";
 
 class Calculadora extends Component {
 
@@ -18,7 +19,7 @@ class Calculadora extends Component {
     }
 
     updateHiss() {
-        axios.get('http://192.168.0.2:9090/oper/report')
+        axios.get(`${api_host}/oper/report`)
         .then(result=>{
             const hiss = result.data
             this.setState({
@@ -49,7 +50,7 @@ class Calculadora extends Component {
     submitForm = () => {
         
         const {num1, num2, operacion} = this.state;
-        axios.post('http://192.168.0.2:9090/oper', {numero1: num1, numero2: num2, operacion: operacion})
+        axios.post(`${api_host}/oper`, {numero1: num1, numero2: num2, operacion: operacion})
             .then(result => {
                 this.setState({
                     resultado: result.data.resultado
