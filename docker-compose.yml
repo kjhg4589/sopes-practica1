@@ -1,0 +1,50 @@
+version: "3.9" 
+services:
+  db:
+    image: mongo
+    container_name: dbmongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: So1pass1S_2022
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - /home/kevin/Documents/mongodata:/data/db
+    networks:
+      - practica-net
+
+  backend:
+    build: ./backend
+    container_name: backend_practica1
+    environment:
+      DB_USER: mongoadmin
+      DB_PASS: So1pass1S_2022
+      DB_HOST: db
+      DB_PORT: 27017
+    ports:
+    - "9090:9090"
+    restart: always
+    depends_on:
+    - db
+    networks:
+    - practica-net
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_practica1
+    ports:
+    - "8080:80"
+    restart: always
+    depends_on:
+    - backend
+    networks:
+    - practica-net
+  
+volumes:
+  mongodata:
+
+networks:
+  practica-net:
+    name: "practica-net"
+    driver: bridge

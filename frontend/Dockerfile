@@ -2,7 +2,7 @@ FROM node:16-alpine AS node
 WORKDIR /app
 COPY . .
 RUN yarn install
-ENV REACT_APP_BACKEND http://192.168.0.2:9090
+ENV REACT_APP_BACKEND http://localhost:9090
 RUN yarn build
 
 ### STAGE 2: Run ###
