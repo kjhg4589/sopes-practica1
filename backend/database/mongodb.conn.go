@@ -3,22 +3,34 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var (
-	usr      = ""
-	pwd      = ""
-	host     = "192.168.0.2"
-	port     = 27017
-	database = "practica1"
-)
+var database = "practica1"
+
+func loadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func GetCollection(collection string) *mongo.Collection {
-	uri := fmt.Sprintf("mongodb://%s:%d", host, port)
+	loadEnv()
+
+	usr := os.Getenv("DB_USER")
+	pwd := os.Getenv("DB_PASS")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+
+	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s", usr, pwd, host, port)
+	fmt.Println("Se conecto a la bd ", uri)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 
