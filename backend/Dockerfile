@@ -9,4 +9,4 @@ ENV DB_PORT 27017
 COPY . .
 RUN go build -v -o /usr/src/app ./...
 EXPOSE 9090
-CMD ["/usr/src/app/sopes-practica1"
+CMD ["/usr/src/app/sopes-practica1"]

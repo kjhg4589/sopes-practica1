@@ -15,7 +15,7 @@ services:
       - practica-net
 
   backend:
-    build: ./backend
+    image: kjhg4589/sop1_backend
     container_name: backend_practica1
     environment:
       DB_USER: mongoadmin
@@ -31,7 +31,7 @@ services:
     - practica-net
 
   frontend:
-    build: ./frontend
+    image: kjhg4589/sop1_frontend
     container_name: frontend_practica1
     ports:
     - "8080:80"
